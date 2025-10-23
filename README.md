@@ -98,7 +98,7 @@ Booking (1) ─── (1) Review
 ---
 
 ##  ER Diagram Tool
-https://drive.google.com/file/d/1WMuhco1OCp0r9yr1eRNnhtaM7Z43mDe6/view?usp=sharing
+https://app.diagrams.net/#G1WMuhco1OCp0r9yr1eRNnhtaM7Z43mDe6#%7B%22pageId%22%3A%2291Sv5s3--Qozor6agku1%22%7D
 
 🧠 2. normalization.md
 # Database Normalization - ALX Airbnb Database
@@ -151,6 +151,7 @@ The database is fully normalized to **3NF**, ensuring:
 -- =========================================================
 
 -- 1. Users Table
+
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
@@ -162,6 +163,7 @@ CREATE TABLE users (
 );
 
 -- 2. Properties Table
+
 CREATE TABLE properties (
     property_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
@@ -175,6 +177,7 @@ CREATE TABLE properties (
 );
 
 -- 3. Bookings Table
+
 CREATE TABLE bookings (
     booking_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
@@ -187,6 +190,7 @@ CREATE TABLE bookings (
 );
 
 -- 4. Payments Table
+
 CREATE TABLE payments (
     payment_id SERIAL PRIMARY KEY,
     booking_id INT UNIQUE REFERENCES bookings(booking_id) ON DELETE CASCADE,
@@ -197,6 +201,7 @@ CREATE TABLE payments (
 );
 
 -- 5. Reviews Table
+
 CREATE TABLE reviews (
     review_id SERIAL PRIMARY KEY,
     booking_id INT UNIQUE REFERENCES bookings(booking_id) ON DELETE CASCADE,
