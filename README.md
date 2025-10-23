@@ -1,268 +1,226 @@
-1. requirements.md
-# Entity Relationship Diagram (ERD) - ALX Airbnb Database
+# Entity Relationship Diagram (ERD)
 
-##  Objective
-This document defines all entities, attributes, and relationships for the ALX Airbnb Database project. It serves as the foundation for normalization and schema creation.
+This ERD represents the Airbnb-like relational database design for the **ALX Airbnb Database Module**.  
+It includes five main entities — `User`, `Property`, `Booking`, `Payment`, and `Review` — with their relationships clearly defined.
 
----
+## 🧱 Entities and Attributes
 
-## Entities and Attributes
+### User
+- user_id (PK)
+- first_name
+- last_name
+- email
+- phone
+- password
+- date_joined
 
-### 1. User
-| Attribute | Description |
-|------------|--------------|
-| user_id (PK) | Unique identifier for each user |
-| first_name | User's first name |
-| last_name | User's last name |
-| email | User's email address (unique) |
-| phone | Contact phone number |
-| password_hash | Encrypted user password |
-| created_at | Timestamp when the user was created |
+### Property
+- property_id (PK)
+- host_id (FK → User.user_id)
+- title
+- description
+- address
+- city
+- country
+- price_per_night
+- created_at
 
----
+### Booking
+- booking_id (PK)
+- user_id (FK → User.user_id)
+- property_id (FK → Property.property_id)
+- check_in_date
+- check_out_date
+- total_price
+- booking_status
 
-### 2. Property
-| Attribute | Description |
-|------------|--------------|
-| property_id (PK) | Unique identifier for each property |
-| user_id (FK) | References the property owner (User) |
-| title | Property title |
-| description | Property description |
-| address | Physical address |
-| city | City location |
-| country | Country location |
-| price_per_night | Cost per night |
-| created_at | Timestamp when the property was added |
+### Payment
+- payment_id (PK)
+- booking_id (FK → Booking.booking_id)
+- payment_date
+- amount
+- payment_method
+- payment_status
 
----
-
-### 3. Booking
-| Attribute | Description |
-|------------|--------------|
-| booking_id (PK) | Unique identifier for each booking |
-| user_id (FK) | References the guest (User) |
-| property_id (FK) | References the booked property |
-| check_in_date | Booking start date |
-| check_out_date | Booking end date |
-| status | Booking status (pending, confirmed, cancelled) |
-| total_price | Total cost for the booking |
-| created_at | Timestamp when booking was made |
-
----
-
-### 4. Payment
-| Attribute | Description |
-|------------|--------------|
-| payment_id (PK) | Unique payment identifier |
-| booking_id (FK, UNIQUE) | References booking |
-| amount | Payment amount |
-| payment_date | Date payment was made |
-| payment_method | Payment method (Credit Card, PayPal, etc.) |
-| status | Payment status (completed, failed, pending) |
-
----
-
-### 5. Review
-| Attribute | Description |
-|------------|--------------|
-| review_id (PK) | Unique review identifier |
-| booking_id (FK, UNIQUE) | References booking |
-| rating | Rating value (1–5) |
-| comment | Review text |
-| created_at | Timestamp when review was added |
-
----
+### Review
+- review_id (PK)
+- user_id (FK → User.user_id)
+- property_id (FK → Property.property_id)
+- rating
+- comment
+- created_at
 
 ## 🔗 Relationships
+- One **User** can host many **Properties** (1:N)
+- One **User** can make many **Bookings** (1:N)
+- One **Booking** belongs to one **Property** and one **User**
+- One **Booking** has one **Payment** (1:1)
+- One **User** can leave many **Reviews** for different **Properties**
 
-| Relationship | Type | Description |
-|---------------|------|--------------|
-| User → Property | 1:N | A user can list many properties |
-| User → Booking | 1:N | A user can make many bookings |
-| Property → Booking | 1:N | A property can have multiple bookings |
-| Booking → Payment | 1:1 | Each booking has one payment |
-| Booking → Review | 1:1 | Each booking can have one review |
+## 🛠 Tool Used
+Created using [Draw.io](https://app.diagrams.net/)  
+Export format: PNG or PDF
 
----
+## 🧩 Normalization Level
+Database normalized up to **Third Normal Form (3NF)**.
+📄 normalization.md
+markdown
+Copy code
+# Database Normalization
 
-## 🧭 ER Diagram Representation
-
-
-
-User (1) ───< (N) Property
-User (1) ───< (N) Booking >───(N) Property
-Booking (1) ─── (1) Payment
-Booking (1) ─── (1) Review
-
-
----
-
-##  ER Diagram Tool
-https://app.diagrams.net/#G1WMuhco1OCp0r9yr1eRNnhtaM7Z43mDe6#%7B%22pageId%22%3A%2291Sv5s3--Qozor6agku1%22%7D
-
-🧠 2. normalization.md
-# Database Normalization - ALX Airbnb Database
+This document outlines the normalization process applied to the Airbnb database design to ensure data integrity and eliminate redundancy.
 
 ## 1️⃣ First Normal Form (1NF)
-**Rules:**
-- Each column holds atomic (single) values.
+- All columns contain atomic values.
 - No repeating groups or arrays.
-- Each record is unique.
-
-✅ Applied:
-- All attributes have single values.
-- Every table has a unique primary key.
-- No repeating columns.
-
----
+- Example: `first_name` and `last_name` are stored separately instead of a single `full_name`.
 
 ## 2️⃣ Second Normal Form (2NF)
-**Rules:**
-- Must be in 1NF.
-- All non-key attributes depend on the whole primary key.
-
-✅ Applied:
-- Each table has a single-column primary key.
-- No partial dependencies exist.
-
----
+- All non-key attributes fully depend on the entire primary key.
+- No partial dependencies.
+- Example: In `Property`, all attributes depend on `property_id`.
 
 ## 3️⃣ Third Normal Form (3NF)
-**Rules:**
-- Must be in 2NF.
-- No transitive dependencies (non-key attributes only depend on the primary key).
+- No transitive dependencies.
+- Example: `User.city` is not stored in `Booking`; it can be derived via `User.user_id`.
 
-✅ Applied:
-- Non-key attributes depend directly on their table’s primary key.
-- No attribute depends on another non-key attribute.
-- Example: `email` exists only in the **User** table, not repeated in **Booking**.
-
----
-
-## 🏁 Result
-The database is fully normalized to **3NF**, ensuring:
-- Minimal redundancy  
-- Data consistency  
-- High scalability and easier maintenance
-
-🧱 3. database-script-0x01/schema.sql
--- =========================================================
--- Airbnb Database Schema (DDL)
--- =========================================================
-
--- 1. Users Table
+✅ Final Design: The database schema achieves **3NF** with no redundancy or update anomalies.
+📁 database-script-0x01/schema.sql
+sql
+Copy code
+-- Airbnb Database Schema Definition
+-- Created by: Pius Ndubi
 
 CREATE TABLE users (
-    user_id SERIAL PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    phone VARCHAR(20),
-    password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  user_id SERIAL PRIMARY KEY,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  phone VARCHAR(20),
+  password VARCHAR(255) NOT NULL,
+  date_joined TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
--- 2. Properties Table
 
 CREATE TABLE properties (
-    property_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
-    title VARCHAR(100) NOT NULL,
-    description TEXT,
-    address VARCHAR(150),
-    city VARCHAR(50),
-    country VARCHAR(50),
-    price_per_night DECIMAL(10,2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  property_id SERIAL PRIMARY KEY,
+  host_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+  title VARCHAR(100) NOT NULL,
+  description TEXT,
+  address VARCHAR(200),
+  city VARCHAR(100),
+  country VARCHAR(100),
+  price_per_night DECIMAL(10,2),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
--- 3. Bookings Table
 
 CREATE TABLE bookings (
-    booking_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
-    property_id INT REFERENCES properties(property_id) ON DELETE CASCADE,
-    check_in_date DATE NOT NULL,
-    check_out_date DATE NOT NULL,
-    status VARCHAR(20) DEFAULT 'pending',
-    total_price DECIMAL(10,2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  booking_id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+  property_id INT REFERENCES properties(property_id) ON DELETE CASCADE,
+  check_in_date DATE NOT NULL,
+  check_out_date DATE NOT NULL,
+  total_price DECIMAL(10,2),
+  booking_status VARCHAR(20) DEFAULT 'pending'
 );
-
--- 4. Payments Table
 
 CREATE TABLE payments (
-    payment_id SERIAL PRIMARY KEY,
-    booking_id INT UNIQUE REFERENCES bookings(booking_id) ON DELETE CASCADE,
-    amount DECIMAL(10,2) NOT NULL,
-    payment_date DATE NOT NULL,
-    payment_method VARCHAR(50) NOT NULL,
-    status VARCHAR(20) DEFAULT 'completed'
+  payment_id SERIAL PRIMARY KEY,
+  booking_id INT REFERENCES bookings(booking_id) ON DELETE CASCADE,
+  payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  amount DECIMAL(10,2),
+  payment_method VARCHAR(50),
+  payment_status VARCHAR(20) DEFAULT 'completed'
 );
-
--- 5. Reviews Table
 
 CREATE TABLE reviews (
-    review_id SERIAL PRIMARY KEY,
-    booking_id INT UNIQUE REFERENCES bookings(booking_id) ON DELETE CASCADE,
-    rating INT CHECK (rating BETWEEN 1 AND 5),
-    comment TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  review_id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+  property_id INT REFERENCES properties(property_id) ON DELETE CASCADE,
+  rating INT CHECK (rating BETWEEN 1 AND 5),
+  comment TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 6. Indexes for performance
-CREATE INDEX idx_users_email ON users(email);
-CREATE INDEX idx_properties_city ON properties(city);
-CREATE INDEX idx_bookings_status ON bookings(status);
+-- Indexes for performance optimization
+CREATE INDEX idx_user_email ON users(email);
+CREATE INDEX idx_property_city ON properties(city);
+CREATE INDEX idx_booking_status ON bookings(booking_status);
+📁 database-script-0x01/README.md
+markdown
+Copy code
+# Airbnb Database Schema
 
-📘 4. database-script-0x01/README.md
-# Database Schema (DDL) - ALX Airbnb Database
+This directory contains SQL scripts to define the database schema for the Airbnb-like application.
 
-## 🎯 Objective
-Define the SQL schema for the ALX Airbnb Database including tables, attributes, data types, and constraints.
+## 📂 Files
+- **schema.sql** — Contains SQL statements to create tables, define constraints, and add indexes.
 
----
+## 📘 Description
+The schema defines the following entities:
+- `users` — stores information about hosts and guests.
+- `properties` — details of listings hosted by users.
+- `bookings` — reservation records between users and properties.
+- `payments` — transaction details for completed bookings.
+- `reviews` — feedback left by users after stays.
 
-## 🗂️ Files
-- `schema.sql` — Contains all SQL CREATE TABLE statements.
+## 🧩 Relationships
+- Users ↔ Properties (1:N)
+- Users ↔ Bookings (1:N)
+- Bookings ↔ Payments (1:1)
+- Users ↔ Reviews (1:N)
+📁 database-script-0x02/seed.sql
+sql
+Copy code
+-- Airbnb Database Seed Script
+-- Created by: Pius Ndubi
 
----
+-- Insert Users
+INSERT INTO users (first_name, last_name, email, phone, password)
+VALUES
+('Alice', 'Otieno', 'alice@gmail.com', '0712345678', 'password123'),
+('Brian', 'Mutua', 'brian@yahoo.com', '0798765432', 'securepass'),
+('Cynthia', 'Wambui', 'cynthia@gmail.com', '0709123456', 'mypassword');
 
-## 🧱 Tables Overview
+-- Insert Properties
+INSERT INTO properties (host_id, title, description, address, city, country, price_per_night)
+VALUES
+(1, 'Cozy Apartment', 'A peaceful apartment near CBD.', 'Kilimani, Nairobi', 'Nairobi', 'Kenya', 5000.00),
+(2, 'Beachfront Villa', 'A beautiful villa facing the ocean.', 'Diani Beach', 'Mombasa', 'Kenya', 15000.00),
+(3, 'Mountain Cabin', 'A quiet escape near Mt. Kenya.', 'Nanyuki', 'Laikipia', 'Kenya', 8000.00);
 
-### 1. `users`
-Stores user account and profile information.
+-- Insert Bookings
+INSERT INTO bookings (user_id, property_id, check_in_date, check_out_date, total_price, booking_status)
+VALUES
+(2, 1, '2025-11-10', '2025-11-12', 10000.00, 'confirmed'),
+(3, 2, '2025-12-05', '2025-12-08', 45000.00, 'pending');
 
-### 2. `properties`
-Stores property listings owned by users.
+-- Insert Payments
+INSERT INTO payments (booking_id, payment_date, amount, payment_method)
+VALUES
+(1, CURRENT_TIMESTAMP, 10000.00, 'M-Pesa'),
+(2, CURRENT_TIMESTAMP, 45000.00, 'Credit Card');
 
-### 3. `bookings`
-Stores reservation details made by users.
+-- Insert Reviews
+INSERT INTO reviews (user_id, property_id, rating, comment)
+VALUES
+(2, 1, 5, 'Amazing experience, highly recommended!'),
+(3, 2, 4, 'Beautiful location and view, but quite pricey.');
+📁 database-script-0x02/README.md
+markdown
+Copy code
+# Airbnb Database Seeding Script
 
-### 4. `payments`
-Stores payment records linked to bookings.
+This directory contains SQL scripts for populating the Airbnb database with realistic sample data.
 
-### 5. `reviews`
-Stores ratings and feedback for completed stays.
+## 📂 Files
+- **seed.sql** — Inserts sample records into all tables (users, properties, bookings, payments, reviews).
 
----
+## 🎯 Purpose
+To simulate real-world Airbnb data for testing, visualization, and query performance analysis.
 
-## ⚙️ Constraints & Features
-- **Primary Keys** — ensure unique records.
-- **Foreign Keys** — maintain data integrity.
-- **Unique Constraints** — prevent duplicate emails/bookings.
-- **Check Constraints** — enforce valid ratings.
-- **Indexes** — improve query performance.
-
----
-
-## 🧩 ER Diagram Reference
-Refer to `ERD/requirements.md` for full entity relationships and visual representation.
-
----
-
-## 🚀 How to Run
-1. Open your SQL client.
-2. Run:
-   ```bash
-   psql -f schema.sql
+## 🧾 Entities Covered
+- Users (hosts and guests)
+- Properties (listings)
+- Bookings (reservations)
+- Payments (transactions)
+- Reviews (feedback)
