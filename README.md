@@ -1,4 +1,4 @@
-1. ERD/requirements.md
+1. requirements.md
 # Entity Relationship Diagram (ERD) - ALX Airbnb Database
 
 ##  Objective
