@@ -58,8 +58,7 @@ It includes five main entities — `User`, `Property`, `Booking`, `Payment`, and
 - One **User** can leave many **Reviews** for different **Properties**
 
 ## 🛠 Tool Used
-Created using [Draw.io](https://app.diagrams.net/)  
-Export format: PNG or PDF
+Created using [[Draw.io](https://app.diagrams.net/](https://app.diagrams.net/#G1WMuhco1OCp0r9yr1eRNnhtaM7Z43mDe6#%7B%22pageId%22%3A%2291Sv5s3--Qozor6agku1%22%7D))  
 
 ## 🧩 Normalization Level
 Database normalized up to **Third Normal Form (3NF)**.
