@@ -2,7 +2,7 @@ Write a query using an INNER JOIN to retrieve all bookings and the respective us
 
 select *
 from bookings inner join users
-on booking.user_id = users.user_id;
+on bookings.user_id = users.user_id;
 
 Write a query using aLEFT JOIN to retrieve all properties and their reviews, including properties that have no reviews.
 
