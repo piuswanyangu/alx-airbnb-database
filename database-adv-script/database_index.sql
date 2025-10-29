@@ -2,20 +2,26 @@ Identify high-usage columns in your User, Booking, and Property tables (e.g., co
 
 Write SQL CREATE INDEX commands to create appropriate indexes for those columns and save them on database_index.sql
 
-create index user_name_idx
-on Users (user_name_idx);
+CREATE INDEX idx_users_user_name
+ON Users (user_name);
 
-create index booking_id_idx
-on Bookings (booking_id_idx);
+CREATE INDEX idx_bookings_user_id
+ON Bookings (user_id);
 
-create index title_idx
-on Properties (title_idx);
+CREATE INDEX idx_bookings_property_id
+ON Bookings (property_id);
+
+CREATE INDEX idx_properties_title
+ON Properties (title);
+
+
 
 EXPLAIN ANALYZE
-SELECT * FROM Users
-WHERE User_name = 'James'
-ORDER BY Bookings DESC;
+SELECT *
+FROM Users
+WHERE user_name = 'James';
 
 EXPLAIN ANALYZE
-SELECT * FROM Properties
-WHERE title = "Jaston Villa";
+SELECT *
+FROM Properties
+WHERE title = 'Jaston Villa';
