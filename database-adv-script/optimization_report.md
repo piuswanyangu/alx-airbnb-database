@@ -1,6 +1,6 @@
-# Optimization Report
+#Optimization Report
 
-## Initial Query
+Initial Query
 ```sql
 SELECT *
 FROM bookings b
@@ -29,6 +29,8 @@ CREATE INDEX idx_bookings_user_id ON bookings(user_id);
 CREATE INDEX idx_bookings_property_id ON bookings(property_id);
 CREATE INDEX idx_bookings_payment_id ON bookings(payment_id);
 
+
+
 SELECT 
     b.booking_id,
     u.user_name,
@@ -38,4 +40,3 @@ FROM bookings b
 JOIN users u ON b.user_id = u.user_id
 JOIN properties p ON b.property_id = p.property_id
 LEFT JOIN payments pay ON b.payment_id = pay.payment_id;
-```
