@@ -28,3 +28,7 @@ UNION
 SELECT * 
 FROM  users RIGHT JOIN bookings
 ON users.user_id = bookings.user_id;
+
+SELECT *
+FROM users FULL OUTER JOIN bookings
+ON users.user_id = bookings.user_id;
