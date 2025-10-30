@@ -1,25 +1,25 @@
 
 
-select *
-from bookings inner join users
-on bookings.user_id = users.user_id;
+SELECT *
+FROM bookings INNER JOIN users
+ON bookings.user_id = users.user_id;
 
 
 
 
 
-select *
-from properties left join reviews
-on properties.property_id = reviews.property_id;
+SELECT *
+FROM properties RIGHT JOIN reviews
+ON properties.property_id = reviews.property_id;
 
 
 
 
-select *
-from users left join bookings
-on users.user_id = bookings.user_id
-union
+SELECT *
+FROM users LEFT JOIN bookings
+ON users.user_id = bookings.user_id
+UNION
 
-select * 
-from users right join bookings
-on users.user_id = bookings.user_id;
+SELECT * 
+FROM  users RIGHT JOIN bookings
+ON users.user_id = bookings.user_id;
