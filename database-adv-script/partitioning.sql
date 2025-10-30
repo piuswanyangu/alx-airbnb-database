@@ -18,3 +18,7 @@ EXPLAIN
 SELECT * 
 FROM bookings_table
 WHERE year(start_date)=2024;
+
+CREATE PARTITION FUNCTION Partition_start_date(start_date) 
+AS RANGE LEFT FOR VALUES ('2023-12-31','2024-12-31','2025-12-31'); 
+
