@@ -21,3 +21,14 @@ To address these issues, I made several improvements:
   CREATE INDEX idx_user_id ON Bookings(user_id);
   CREATE INDEX idx_city ON Properties(city);
   CREATE INDEX idx_email ON Users(email);
+
+
+EXPLAIN ANALYZE
+SELECT *
+FROM properties
+WHERE property_id IN (
+    SELECT property_id
+    FROM reviews
+    GROUP BY property_id
+    HAVING AVG(rating) > 4.0
+);
