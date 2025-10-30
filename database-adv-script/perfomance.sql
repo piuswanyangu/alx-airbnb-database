@@ -8,7 +8,8 @@ JOIN users u
 JOIN properties p
     ON b.property_id = p.property_id
 JOIN payments pay
-    ON b.payment_id = pay.payment_id;
+    ON b.payment_id = pay.payment_id
+    WHERE p.location ='kenya' AND u.user_name = 'Pius';
 
 
 EXPLAIN ANALYZE
