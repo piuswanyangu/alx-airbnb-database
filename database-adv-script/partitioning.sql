@@ -1,5 +1,5 @@
-alter table bookings_table
-partition by range (year(start_date))(
+CREATE TABLE bookings_table
+PARTITION BY RANGE (year(start_date))(
     partition p2023 values less than (2023)
     partition p2024 values less than (2024)
     partition p_future values less than maxvalues
