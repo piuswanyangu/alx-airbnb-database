@@ -23,7 +23,7 @@ To address these issues, I made several improvements:
   CREATE INDEX idx_email ON Users(email);
 
 
-EXPLAIN ANALYZE
+<!-- EXPLAIN ANALYZE
 SELECT *
 FROM properties
 WHERE property_id IN (
@@ -31,4 +31,4 @@ WHERE property_id IN (
     FROM reviews
     GROUP BY property_id
     HAVING AVG(rating) > 4.0
-);
+); -->
