@@ -9,11 +9,11 @@ Use a window function (ROW_NUMBER, RANK) to rank properties based on the total n
 
 SELECT 
     p.property_id,
-    p.property_name,
+    p.title,
     COUNT(b.booking_id) AS total_bookings,
     ROW_NUMBER() OVER (ORDER BY COUNT(b.booking_id) DESC) AS row_num_rank,
     RANK() OVER (ORDER BY COUNT(b.booking_id) DESC) AS rank_order
 FROM properties p
 JOIN bookings b
     ON p.property_id = b.property_id
-GROUP BY p.property_id, p.property_name;
+GROUP BY p.property_id, p.title;

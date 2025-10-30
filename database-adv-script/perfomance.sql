@@ -9,7 +9,7 @@ JOIN properties p
     ON b.property_id = p.property_id
 JOIN payments pay
     ON b.payment_id = pay.payment_id
-    WHERE p.location ='kenya' AND u.user_name = 'Pius';
+    WHERE p.country='kenya' AND u.first_name = 'Pius';
 
 
 EXPLAIN ANALYZE
@@ -25,12 +25,12 @@ JOIN payments pay
 
 SELECT 
     b.booking_id,
-    u.user_name,
-    u.email,
-    p.property_name,
-    p.location,
+    u.first_name,
+    u.last_name,
+    p.title,
+    p.city,
     pay.amount,
-    pay.status
+    pay.payment_status
 FROM bookings b
 INNER JOIN users u ON b.user_id = u.user_id
 INNER JOIN properties p ON b.property_id = p.property_id
